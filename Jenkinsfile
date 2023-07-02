@@ -57,7 +57,7 @@ pipeline {
                   //  configs: 'train-schedule-kube-canary.yml',
                    // enableConfigSubstitution: true
                 //) 
-                sh 'kubectl apply -f --kubeconfig=/home/ubuntu/.kube/config train-schedule-kube-canary.yml'
+                sh 'kubectl apply -f train-schedule-kube-canary.yml --kubeconfig=/home/ubuntu/.kube/config'
             }
         }
         stage('DeployToProduction') {
@@ -78,7 +78,7 @@ pipeline {
            //         configs: 'train-schedule-kube-canary.yml',
              //       enableConfigSubstitution: true
                // )
-                sh 'kubectl apply -f --kubeconfig=/home/ubuntu/.kube/config train-schedule-kube-canary.yml'
+                sh 'kubectl apply -f train-schedule-kube-canary.yml --kubeconfig=/home/ubuntu/.kube/config'
             }
         }
     }
