@@ -4,7 +4,7 @@ pipeline {
         //be sure to replace "bhavukm" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "lusifer09/train-schedule"
     }
-    tool {
+    tools {
         jdk 'java'
     }
     stages {
