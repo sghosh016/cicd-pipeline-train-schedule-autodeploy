@@ -42,6 +42,7 @@ pipeline {
             }
         }
         stage('CanaryDeploy') {
+            agent {'kube-master'}
             when {
                 branch 'master'
             }
@@ -49,14 +50,16 @@ pipeline {
                 CANARY_REPLICAS = 1
             }
             steps {
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'train-schedule-kube-canary.yml',
-                    enableConfigSubstitution: true
-                )
+               // kubernetesDeploy(
+                 //   kubeconfigId: 'kubeconfig',
+                  //  configs: 'train-schedule-kube-canary.yml',
+                   // enableConfigSubstitution: true
+                //) 
+                sh 'kubectl apply -f --kubeconfig=/home/ubuntu/.kube/config train-schedule-kube-canary.yml'
             }
         }
         stage('DeployToProduction') {
+            agent {'kube-master'}
             when {
                 branch 'master'
             }
@@ -66,16 +69,12 @@ pipeline {
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'train-schedule-kube-canary.yml',
-                    enableConfigSubstitution: true
-                )
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'train-schedule-kube.yml',
-                    enableConfigSubstitution: true
-                )
+       //         kubernetesDeploy(
+         //           kubeconfigId: 'kubeconfig',
+           //         configs: 'train-schedule-kube-canary.yml',
+             //       enableConfigSubstitution: true
+               // )
+                sh 'kubectl apply -f --kubeconfig=/home/ubuntu/.kube/config train-schedule-kube-canary.yml'
             }
         }
     }
