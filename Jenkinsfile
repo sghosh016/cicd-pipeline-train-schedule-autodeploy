@@ -42,7 +42,9 @@ pipeline {
             }
         }
         stage('CanaryDeploy') {
-            agent {'kube-master'}
+            agent {
+                label 'kube-master'
+            }
             when {
                 branch 'master'
             }
@@ -59,7 +61,9 @@ pipeline {
             }
         }
         stage('DeployToProduction') {
-            agent {'kube-master'}
+            agent {
+                label 'kube-master'
+            }
             when {
                 branch 'master'
             }
