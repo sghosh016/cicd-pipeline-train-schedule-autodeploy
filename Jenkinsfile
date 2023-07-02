@@ -8,14 +8,14 @@ pipeline {
         jdk 'java'
     }
     stages {
-        stage('Build') {
+        stage('Build Project') {
             steps {
                 echo 'Running build automation'
            //     sh './gradlew build --no-daemon'
              //   archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
-        stage('Build Docker Image') {
+        stage('Docker Image Creation') {
             when {
                 branch 'master'
             }
@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image') {
+        stage('Push Docker Image to Hub') {
             when {
                 branch 'master'
             }
@@ -60,7 +60,7 @@ pipeline {
                 sh 'kubectl apply -f train-schedule-kube-canary.yml --kubeconfig=/home/ubuntu/.kube/config'
             }
         }
-        stage('DeployToProduction') {
+        stage('DeployToKubernetes') {
             agent {
                 label 'kube-master'
             }
